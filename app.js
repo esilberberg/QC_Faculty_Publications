@@ -12,15 +12,39 @@ async function fetchData(institutionId) {
     }
   }
 
-// Queens College ID
+// Queens College OpenAlex ID
 const institutionId = 'i111455621'; 
 
 fetchData(institutionId)
   .then(data => {
-    // Do something with the data
-    console.log(data['results']);
-  })
-  .catch(error => {
-    // Handle any errors that occurred during the fetch
-    console.error('Fetch error:', error);
+    data['results'].forEach(e => {
+      const title = e['title'];
+      const publication_year = e['publication_year'];
+      const doi = e['doi'];
+      let topic = '';
+      if (e['primary_topic']?.['display_name']) {
+        topic = e['primary_topic']['display_name'];
+      }
+      let publication = '';
+      if (e['primary_location']?.['source']?.['display_name']) {
+        publication = e['primary_location']['source']['display_name'];
+      }
+      
+      const htmlOutput = `
+        <div class="citation">
+          <div class="title"><a href="${doi}" target="_blank" rel="noopener noreferrer">${title}</a></div>
+          <div class="publication">${publication}</div>
+          <div class="authorship">
+            ${e['authorships'].map(a => `
+              <div class="author">
+                <span class="author-name">${a['raw_author_name']}</span>
+                <span class="author-affiliation">${a['institutions']?.[0]?.['display_name'] || ''}</span>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      `;
+
+      display.insertAdjacentHTML('beforeend', htmlOutput);
+    });
   });
