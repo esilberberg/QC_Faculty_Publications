@@ -5,43 +5,75 @@
 }
 
 .wrapper {
-    max-width: 500px;
+    max-width: 1200px;
     margin: 0 auto;
     padding: 1rem;
 }
 
 h1 {
     font-size: 1.7rem;
-    margin-bottom: 2rem;
+    margin-bottom: 0;
+    text-align: center;
+}
+
+.top-msg {
+    font-size: 12px;
+    font-style: italic;
+    text-align: center;
+    margin-bottom: 2.5rem;
+}
+
+.top-msg a {
+    text-decoration: none;
+    color: brown;
+    transition: color 0.4s ease;
+}
+
+.top-msg a:hover {
+    color: red;
+}
+
+#display {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    gap: 10px;
 }
 
 .citation {
-    margin-bottom: 2.2rem;
+    margin-bottom: 2rem;
+    border-top: 3px solid brown;
+    transition: border-top-color 0.4s ease;
+    max-width: 250px;
 }
 
-
-.title {
-    padding-bottom: 5px;
-}
-
-.title a {
+.citation a{
+    transition: color 0.4s ease;
     color: brown;
     text-decoration: none;
 }
 
-.title a:hover {
-    color: red;
+.citation:hover a{
+    color: red; 
 }
 
-.publication {
-    padding-bottom: 5px;
-
+.citation:hover {
+    border-top-color: red;
 }
 
-.authorship {
-    font-size: 0.7rem;
+.title {
+    padding-top: 5px;
 }
 
-.author-affiliation {
-    font-style: italic;
-}
+@media only screen and (max-width: 540px) {
+    h1 {
+        font-size: 100%;
+    }
+    #display {
+        display: block;
+        padding: 0 1rem;
+    }
+    .citation {
+        max-width: none;
+    }
+  }
