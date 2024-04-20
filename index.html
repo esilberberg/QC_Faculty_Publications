@@ -3,14 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="icon" type="image/x-icon" href="flask-solid.svg">
     <link rel="stylesheet" href="style.css">
-    <title>QC New Publications</title>
+    
+    <title>QC New Research</title>
 </head>
 <body>
-    <div class="wrapper">
-        <h1>New Research from Queens College</h1>
-        <p class="top-msg">Data provided by <a href="https://openalex.org/" target="_blank" rel="noopener noreferrer">OpenAlex</a></p>
-        <div id="display"></div>
+    <header>
+        <h1>New Research at <span class="college-name">Queens College</span></h1>
+        <p class="top-msg">Powered by <a href="https://openalex.org/" target="_blank" rel="noopener noreferrer">OpenAlex</a></p>
+    </header>
+
+    <div id="display"></div>
+    <footer>
+        Built by <a href="https://ericsilberberg.com/" target="_blank" rel="noopener noreferrer">Eric Silberberg</a>, 2024
+    </footer>
     </div>
     <script src="app.js"></script>
 </body>

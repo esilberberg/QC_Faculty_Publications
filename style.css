@@ -4,10 +4,25 @@
     font-family: Helvetica, sans-serif;
 }
 
-.wrapper {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 1rem;
+:root {
+    --main-dark: brown;
+    --main-light: red;
+    --background: #F7F7F7;
+}
+
+body {
+    background-color: var(--background);
+}
+
+header {
+    background-color: white;
+    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+    padding: 1.5rem 0;
+    margin-bottom: 2rem;
+}
+
+a {
+    transition: color 0.4s ease;
 }
 
 h1 {
@@ -20,20 +35,20 @@ h1 {
     font-size: 12px;
     font-style: italic;
     text-align: center;
-    margin-bottom: 2.5rem;
 }
 
 .top-msg a {
-    text-decoration: none;
-    color: brown;
-    transition: color 0.4s ease;
+    color: black;
 }
 
 .top-msg a:hover {
-    color: red;
+    color: var(--main-light);
 }
 
 #display {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1rem;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-evenly;
@@ -41,33 +56,48 @@ h1 {
 }
 
 .citation {
-    margin-bottom: 2rem;
-    border-top: 3px solid brown;
+    margin-bottom: 2.5rem;
+    border-top: 3px solid black;
     transition: border-top-color 0.4s ease;
     max-width: 250px;
 }
 
 .citation a{
-    transition: color 0.4s ease;
-    color: brown;
+    color: black;
     text-decoration: none;
 }
 
 .citation:hover a{
-    color: red; 
+    color: var(--main-dark); 
 }
 
 .citation:hover {
-    border-top-color: red;
+    border-top-color: var(--main-dark);
 }
 
 .title {
     padding-top: 5px;
 }
 
+footer {
+    background-color: white;
+    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+    padding: 1rem 0;
+    text-align: center;
+    font-size: 12px;  
+}
+
+footer a {
+    color: black;
+}
+
+footer a:hover {
+    color: var(--main-light);
+}
+
 @media only screen and (max-width: 540px) {
-    h1 {
-        font-size: 100%;
+    .college-name {
+        display: inline-block;
     }
     #display {
         display: block;
