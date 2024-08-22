@@ -22,7 +22,7 @@ header {
 }
 
 a {
-    transition: color 0.4s ease;
+    transition: color 0.2s ease;
 }
 
 h1 {
@@ -44,66 +44,66 @@ h1 {
 .top-msg a:hover {
     color: var(--main-light);
 }
-
-#display {
-    max-width: 1200px;
+main {
+    max-width: 700px;
     margin: 0 auto;
     padding: 1rem;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-evenly;
-    gap: 10px;
+}
+
+#summary {
+    margin-bottom: 2rem;
+}
+
+#summary ul {
+    margin: 1rem 0 1rem 4rem;
 }
 
 .citation {
-    margin-bottom: 2.5rem;
-    border-top: 3px solid black;
-    transition: border-top-color 0.4s ease;
-    max-width: 250px;
-}
-
-.citation a{
-    color: black;
-    text-decoration: none;
-}
-
-.citation:hover a{
-    color: var(--main-dark); 
+    margin-bottom: 1.7rem;
+    padding: 20px;
+    border-radius: 10px;
+    border: 1px solid gray;
 }
 
 .citation:hover {
-    border-top-color: var(--main-dark);
+    border: 1px solid var(--main-light);
+    transition: border 1s ease;
 }
 
-.title {
-    padding-top: 5px;
+.cite-link {
+    color: black;
+    text-decoration: none;
 }
+.title {
+    font-size: 1.3rem;
+    margin-bottom: 10px;
+}
+
+.description {
+    padding-left: 1.5rem;
+    font-size: 14px;
+}
+.author {
+    margin-top: 7px;
+}
+
+.author-affiliation {
+    font-style: italic;
+    margin-left: 4px;
+    font-size: 12px;
+}
+
+.label {
+    font-weight: bold;
+    margin-top: 7px;
+}
+
 
 footer {
-    background-color: white;
-    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
-    padding: 1rem 0;
     text-align: center;
-    font-size: 12px;  
+    font-size: 14px;
 }
 
 footer a {
     color: black;
 }
-
-footer a:hover {
-    color: var(--main-light);
-}
-
-@media only screen and (max-width: 540px) {
-    .college-name {
-        display: inline-block;
-    }
-    #display {
-        display: block;
-        padding: 0 1rem;
-    }
-    .citation {
-        max-width: none;
-    }
-  }
