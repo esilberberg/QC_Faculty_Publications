@@ -26,9 +26,8 @@ fetchData(institutionId)
       topicsSummary += `<li class="topic">${topic}.</li>`
     })
 
-    const summaryOutput = `Queens College faculty actively research and publish in wide variety of disciplines. This week, some of their newly published work focuses on:
+    const summaryOutput = `Queens College faculty actively research and publish in wide variety of disciplines. Recent published work looks at:
     <ul>${topicsSummary}</ul>
-    Scroll down to read their work.
     `
     summary.innerHTML = summaryOutput
 
@@ -55,7 +54,7 @@ fetchData(institutionId)
       });
       
       const citationOutput = `
-        <a class ="cite-link" href="${doi}" target="_blank" rel="noopener noreferrer">
+        
         <div class="citation">
           <div class="title">${index + 1}. ${title}</div>
           <div class="description">
@@ -64,11 +63,15 @@ fetchData(institutionId)
             <div class="location">${location}</div>
             <div class="label">Topics:</div>
             <div class="topics-list">${topicsList}</div>
-           </div>
+              <div class="access">
+                  <p class="access-option"><a class="access-link" href="https://cuny-qc.primo.exlibrisgroup.com/discovery/search?query=any,contains,${doi}&tab=Everything&search_scope=IZ_CI_AW&vid=01CUNY_QC:CUNY_QC&offset=0&pcAvailability=true" target="_blank" rel="noopener noreferrer">Look for this publication in OneSearch <i class="fa-solid fa-arrow-up-right-from-square"></i></a></p>
+                  <p class="access-option"><a class="access-link" href="https://qc.illiad.oclc.org/illiad/logon.html" target="_blank" rel="noopener noreferrer">If not available, make an InterLibrary Loan request <i class="fa-solid fa-arrow-up-right-from-square"></i></a></p>
+              </div>
+            </div>
         </div>
-        </a>
       `;
       
+       
       display.insertAdjacentHTML('beforeend', citationOutput);
     });
   });
