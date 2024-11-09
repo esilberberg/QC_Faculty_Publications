@@ -31,7 +31,7 @@ fetchData(institutionId)
     `
     summary.innerHTML = summaryOutput
 
-    data.results.forEach((e, index) => {
+    data.results.reverse().forEach((e, index) => {
       const title = e.title || 'No title available';
       const doi = e.doi || '#';
       const topics = e.topics || [];
@@ -71,7 +71,6 @@ fetchData(institutionId)
         </div>
       `;
       
-       
       display.insertAdjacentHTML('beforeend', citationOutput);
     });
   });
