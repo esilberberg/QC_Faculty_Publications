@@ -1,1 +1,1 @@
-# QC_Faculty_Publications
+# QC Faculty Publications
