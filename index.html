@@ -1,30 +1,163 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <link rel="icon" type="image/x-icon" href="flask-solid.svg">
-    <link rel="stylesheet" href="style.css">
-    
-    <script src="https://kit.fontawesome.com/1d9765704f.js" crossorigin="anonymous"></script>
-
-    <title>QC New Research</title>
-</head>
-<body>
-    <header>
-        <h1>New Research at <span class="college-name">Queens College</span></h1>
-        <p class="top-msg">Powered by <a href="https://openalex.org/" target="_blank" rel="noopener noreferrer">OpenAlex</a></p>
-    </header>
-    <main>
-        <div id="summary"></div>
-        <div id="display"></div>
-    </main>
-
-    <footer>
-        Built by <a href="https://ericsilberberg.com/" target="_blank" rel="noopener noreferrer">Eric Silberberg</a>, 2024
-    </footer>
+<script src="https://kit.fontawesome.com/1d9765704f.js" crossorigin="anonymous"></script>
+<div class="research-content">
+    <div id="summary">
+        <p>This page showcases the 25 most recently indexed publications from Queens College faculty. While the college's scholarly production encompasses a wider range of formats, including artistic works and creative writing, this display focuses on journal articles book chapters.</p>
     </div>
-    <script src="app.js"></script>
-</body>
-</html>
+    <div id="display"></div>
+</div>
+
+
+<script>
+const display = document.getElementById('display');
+const summary = document.getElementById('summary'); // Still unused, but kept for context
+const institutionId = 'i111455621'; // Queens College OpenAlex ID
+
+const currentYear = new Date().getFullYear();
+
+async function fetchData(institutionId) {
+    try {
+        // Get all works connected to QC's OpenAlex ID for the past 2 years, then order by date descending.
+        const apiUrl = `https://api.openalex.org/works?filter=institutions.id:${institutionId},publication_year:${currentYear - 1}|${currentYear}&sort=publication_date:desc`;
+        const response = await fetch(apiUrl);
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error('Sorry! Error fetching data:', error);
+        return null;
+    }
+}
+
+function displayData(data) {
+    if (!data || !data.results || data.results.length === 0) {
+        display.innerHTML = '<p>No data found for the specified institution and years.</p>';
+        return;
+    }
+
+    let outputHTML = ''; // Initialize outputHTML here
+
+    data.results.forEach((e, index) => {
+        const title = e.title || 'No title available';
+        const doi = e.doi || '#';
+        const topics = e.topics || [];
+        // Safely access nested properties
+        const location = (e.locations && e.locations[0] && e.locations[0].source && e.locations[0].source.display_name) || 'Location unknown';
+        const authors = e.authorships || [];
+        const publicationDate = e.publication_date || 'No publication date available';
+
+        let topicsList = '';
+        topics.forEach((topic, index) => {
+            topicsList += `<span class="topic">${topic.display_name}</span>`;
+            if (index < topics.length - 1) {
+                topicsList += '; ';
+            }
+        });
+
+        let authorList = '';
+        authors.forEach(author => {
+            const authorName = author.raw_author_name || 'Unknown author';
+            const authorAffiliation = (author.institutions && author.institutions[0] && author.institutions[0].display_name) || 'Affiliation unknown';
+            authorList += `<p class="author"><span class="author-name">${authorName},</span><span class="author-affiliation">${authorAffiliation}</span></p>`;
+        });
+
+        const citationOutput = `
+            <div class="citation">
+                <div class="title">${index + 1}. ${title}</div>
+                <div class="description">
+                    <div class="author-list">${authorList}</div>
+                    <div class="citation-label">Publication:</div>
+                    <div class="location">${location}</div>
+                    <div class="citation-label">Publication Date:</div>
+                    <div class="publication-date">${publicationDate}</div> <div class="citation-label">Topics:</div>
+                    <div class="topics-list">${topicsList}</div>
+                    <div class="access"><a href="https://cuny-qc.primo.exlibrisgroup.com/discovery/search?query=any,contains,${doi}&tab=Everything&search_scope=IZ_CI_AW&vid=01CUNY_QC:CUNY_QC&offset=0&pcAvailability=true" target="_blank" rel="noopener noreferrer">Access via OneSearch <i class="fa-solid fa-arrow-up-right-from-square"></i></a></div>
+                </div>
+            </div>
+        `;
+        outputHTML += citationOutput;
+    });
+
+    display.innerHTML = outputHTML; // Set innerHTML once after the loop
+}
+
+// Call the fetchData and then displayData
+(async () => {
+    const data = await fetchData(institutionId);
+    if (data) {
+        displayData(data);
+    }
+})();
+
+
+</script>
+<style>
+#summary {
+    margin: 2rem;
+    text-align: left;
+}
+
+#summary ul {
+margin: 1rem 0 3rem 0;
+}
+#summary li {
+padding-top: 10px;
+}
+
+.citation {
+margin: 0;
+padding: 0;
+font-family: Helvetica, sans-serif;
+color: black;
+margin-bottom: 1.7rem;
+padding: 20px;
+border-radius: 10px;
+border: 1px solid gray;
+}
+.title {
+    font-size: 1.8rem;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.description {
+    font-size: 14px;
+    margin-top: 1.5rem;
+}
+.access {
+    margin: 2rem 0 1rem 0;
+}
+.access a {
+    transition: background-color 0.1s ease-in;
+    background-color: darkred;
+    color: white;
+    padding: 5px;
+    border-radius: 5px;
+    font-size: 12px;
+    text-decoration: none;
+}
+.access a:hover {
+    background-color: red;
+}
+.access i {
+font-size: 10px;
+padding-left: 5px;
+}
+.author {
+    margin: 0;
+    padding-bottom: 5px;
+}
+
+.author-affiliation {
+    font-style: italic;
+    margin-left: 4px;
+    font-size: 12px;
+}
+.citation-label {
+    font-weight: bold;
+    margin-top: 7px;
+color: black;
+}
+
+</style>
