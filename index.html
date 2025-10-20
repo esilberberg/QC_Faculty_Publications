@@ -1,18 +1,18 @@
 <script src="https://kit.fontawesome.com/1d9765704f.js" crossorigin="anonymous"></script>
 <div class="research-content">
-    <div id="summary">
-        <p>This page showcases the 25 most recently indexed publications from Queens College faculty. While the college's scholarly production encompasses a wider range of formats, including artistic works and creative writing, this display focuses on journal articles book chapters.</p>
-    </div>
-    <div id="display"></div>
+<div id="summary">
+<p><span style="font-size:16px;">This page showcases the 25 most recently indexed publications from Queens College faculty and students. While the college&#39;s scholarly production encompasses a wider range of formats, including artistic works and creative writing, this display focuses on journal articles and book chapters.</span></p>
 </div>
 
-
+<div id="display">&nbsp;</div>
+</div>
 <script>
 const display = document.getElementById('display');
 const summary = document.getElementById('summary'); // Still unused, but kept for context
 const institutionId = 'i111455621'; // Queens College OpenAlex ID
 
-const currentYear = new Date().getFullYear();
+const today = new Date();
+const currentYear = today.getFullYear();
 
 async function fetchData(institutionId) {
     try {
@@ -62,17 +62,30 @@ function displayData(data) {
             authorList += `<p class="author"><span class="author-name">${authorName},</span><span class="author-affiliation">${authorAffiliation}</span></p>`;
         });
 
+        // Logic to control whether publication date is old enough to be indexed by OneSearch. If so, display a button directing users to the publication's OneSearch record.
+        dateObject = new Date(publicationDate)
+        oneSearchBtnHTML = '';
+        if (dateObject && !isNaN(dateObject)) {
+            // Establish moving embargo wall in number of days.
+            const embargoWallDays = 14;
+            // Today minus the embargo wall number of days converted to miliseconds.
+            const embargoWallMs = today.getTime() - (1000 * 60 * 60 * 24 * embargoWallDays);
+            const embargoWall = new Date(embargoWallMs);
+            if (dateObject < embargoWall) {
+                oneSearchBtnHTML = `<a href="https://cuny-qc.primo.exlibrisgroup.com/discovery/search?query=any,contains,${doi}&tab=Everything&search_scope=IZ_CI_AW&vid=01CUNY_QC:CUNY_QC&offset=0&pcAvailability=true" target="_blank" rel="noopener noreferrer">Check availability in OneSearch <i class="fa-solid fa-arrow-up-right-from-square"></i></a>`
+            }
+        }
         const citationOutput = `
             <div class="citation">
                 <div class="title">${index + 1}. ${title}</div>
                 <div class="description">
                     <div class="author-list">${authorList}</div>
                     <div class="citation-label">Publication:</div>
-                    <div class="location">${location}</div>
+                    <div class="location"><a href="${doi}"target="_blank" rel="noopener noreferrer">${location}</a></div>
                     <div class="citation-label">Publication Date:</div>
                     <div class="publication-date">${publicationDate}</div> <div class="citation-label">Topics:</div>
                     <div class="topics-list">${topicsList}</div>
-                    <div class="access"><a href="https://cuny-qc.primo.exlibrisgroup.com/discovery/search?query=any,contains,${doi}&tab=Everything&search_scope=IZ_CI_AW&vid=01CUNY_QC:CUNY_QC&offset=0&pcAvailability=true" target="_blank" rel="noopener noreferrer">Access via OneSearch <i class="fa-solid fa-arrow-up-right-from-square"></i></a></div>
+                    <div class="access">${oneSearchBtnHTML}</div>
                 </div>
             </div>
         `;
@@ -92,8 +105,7 @@ function displayData(data) {
 
 
 </script>
-<style>
-#summary {
+<style type="text/css">#summary {
     margin: 2rem;
     text-align: left;
 }
@@ -159,5 +171,4 @@ padding-left: 5px;
     margin-top: 7px;
 color: black;
 }
-
 </style>
